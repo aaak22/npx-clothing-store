@@ -6,7 +6,8 @@ import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth'
 
 import { 
@@ -23,7 +24,7 @@ const firebaseConfig = {
     storageBucket: "npx-clothing-db.appspot.com",
     messagingSenderId: "15590543499",
     appId: "1:15590543499:web:ad5828c65eff37f1e4048e"
-};
+  };
 
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -42,32 +43,32 @@ export const db = getFirestore();
 
 export const createUserDocFromAuth = async (userAuth, additionalInformation = {} ) => {
 
-    try{
-        if(!userAuth) return;
-        const userDocRef = doc(db, 'users', userAuth.uid).catch((err) => {throw err});
-        // console.log(userDocRef);
-        const userSnapshot = await getDoc(userDocRef);
-        // console.log(userSnapshot.exists());
-        
-        if(!userSnapshot.exists()){
-            const { displayName, email } = userAuth;
-            const createdAt = new Date();
+    if(!userAuth) return;
+    const userDocRef = doc(db, 'users', userAuth.uid);
+    // console.log(userDocRef); 
+    const userSnapshot = await getDoc(userDocRef);
+    // console.log(userSnapshot.exists());
+    
+    if(!userSnapshot.exists()){
+        const { displayName, email } = userAuth;
+        const createdAt = new Date();
 
-            try{
-                await setDoc(userDocRef, {
-                    displayName,
-                    email,
-                    createdAt,
-                    ...additionalInformation
-                })
-            }catch(err){
-                console.log('error creating',err.message)
-            }
+        try{
+            await setDoc(userDocRef, {
+                displayName,
+                email,
+                createdAt,
+                ...additionalInformation
+            })
+        }catch(err){
+            console.log('error creating',err.message)
         }
-
-    }catch(err){
-        console.log('error creating',err.message)
     }
+    // try{
+
+    // }catch(err){
+    //     console.log('error creating',err.message)
+    // }
 }
 
 export const createUserWithEmailAndPasswordAuth = async (email, password) =>{
@@ -82,4 +83,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) =>{
     return await signInWithEmailAndPassword(auth, email, password);
 }
 
-export const singOutUser = async () => await signOut(auth)
+export const signOutUser = async () => await signOut(auth)
+
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
