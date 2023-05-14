@@ -21,7 +21,7 @@ export const NavLinksContainer = styled.div`
     align-items: center;
     justify-content: flex-end;
 `
-export const NavLink = styled.div`
+export const NavLink = styled(Link)`
     padding: 10px 15px;
     cursor: pointer;
 `
