@@ -2,12 +2,15 @@ import React, { Fragment, useContext } from 'react';
 import CategoryPreview from '../../components/category-preview/category-preview';
 // import ProductCard from '../../components/product-card/product-card.component';
 // import SHOP_DATA from '../../shop-data.json'
-import { CategoriesContext } from '../../contexts//categories.context';
+// import { CategoriesContext } from '../../contexts//categories.context';
 import './categories-preview.styles.scss'
+import { selectCategoriesMap } from '../../store/categories/category.selector';
+import { useSelector } from 'react-redux';
 
 const CategoriesPreview = () => {
-    const { categoriesMap } = useContext(CategoriesContext);
+    // const { categoriesMap } = useContext(CategoriesContext);
     // console.log(categoriesMap);
+    const categoriesMap = useSelector(selectCategoriesMap);
     return (
         <Fragment>
             { 
