@@ -6,7 +6,7 @@ import { ReactComponent as CrownLogo } from '../../assets/crown.svg'
 
 // import { UserContext } from '../../contexts/user.context';
 import { selectCurrentUser } from '../../store/user/user.selector'
-import { CartContext } from '../../contexts/cart.context';
+// import { CartContext } from '../../contexts/cart.context';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
@@ -16,6 +16,7 @@ import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component
 
 // import './navigation.styles.scss';
 import { NavigationContainer, LogoContainer, NavLinksContainer, NavLink } from './navigation.styles'
+import { selectIsCartOpen } from '../../store/cart/cart.selector';
 
 const Navigation = () => {
 
@@ -28,9 +29,12 @@ const Navigation = () => {
   //   setCurrentUser(null);
   // }
 
-  const currentUser = useSelector(selectCurrentUser);
-  const { isCartOpen } = useContext(CartContext);
+  // const { isCartOpen } = useContext(CartContext);
   // console.log(currentUser);
+  
+  const currentUser = useSelector(selectCurrentUser);
+  const isCartOpen = useSelector(selectIsCartOpen);
+
   return (
     <Fragment>
       {/*
